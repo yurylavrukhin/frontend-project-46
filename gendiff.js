@@ -3,53 +3,53 @@ import { program } from 'commander';
 import fs from 'fs';
 import path from 'path';
 
-const genDiff = (firstConfig, secondConfig) => {
+const genDiff = (firstPath, secondPath) => {
+  const firstFile = fs.readFileSync(path.resolve(process.cwd(), firstPath));
+  const secondFile = fs.readFileSync(path.resolve(process.cwd(), secondPath));
+
+  const firstConfig = JSON.parse(firstFile.toString());
+  const secondConfig = JSON.parse(secondFile.toString());
+
   const firstConfigKeys = Object.keys(firstConfig);
   const secondConfigKeys = Object.keys(secondConfig);
 
-  const keys = new Set([...firstConfigKeys, ...secondConfigKeys].sort());
+  const uniqueKeys = [...new Set([...firstConfigKeys, ...secondConfigKeys].sort())];
 
-  let result = `{
-    `;
-
-  keys.forEach((key) => {
+  const diff = uniqueKeys.reduce((acc, key) => {
     const firstConfigValue = firstConfig[key];
     const secondConfigValue = secondConfig[key];
 
-    if (
-      firstConfigValue !== undefined &&
-      firstConfigValue !== undefined &&
-      firstConfigValue === secondConfigValue
-    ) {
-      result += `    ${key}: ${firstConfigValue}
-    `;
+    if (firstConfigValue !== undefined && secondConfigValue !== undefined) {
+      if (firstConfigValue === secondConfigValue) {
+        // untouched
+        acc[`  ${key}`] = firstConfigValue;
+        return acc;
+      } else {
+        // touched
+        acc[`- ${key}`] = firstConfigValue;
+        acc[`+ ${key}`] = secondConfigValue;
+        return acc;
+      }
     }
 
+    // deleted
     if (secondConfigValue === undefined && firstConfigValue !== undefined) {
-      result += `  - ${key}: ${firstConfigValue}
-    `;
+      acc[`- ${key}`] = firstConfigValue;
+      return acc;
     }
 
-    if (
-      secondConfigValue !== undefined &&
-      firstConfigValue !== undefined &&
-      firstConfigValue !== secondConfigValue
-    ) {
-      result += `  - ${key}: ${firstConfigValue}
-    `;
-      result += `  + ${key}: ${secondConfigValue}
-    `;
-    }
-
+    // added
     if (secondConfigValue !== undefined && firstConfigValue === undefined) {
-      result += `  + ${key}: ${secondConfigValue}
-    `;
+      acc[`+ ${key}`] = secondConfigValue;
+      return acc;
     }
-  });
+  }, {});
 
-  result += `}`;
+  const diffString = JSON.stringify(diff, null, 2);
 
-  return result;
+  const unquotedDiffString = diffString.replace(/"([^"]+)":/g, '$1:');
+
+  return unquotedDiffString;
 };
 
 program
@@ -59,13 +59,7 @@ program
   .arguments('<filepath1> <filepath2>')
   .helpOption('-h, --help', 'output usage information')
   .action((firstPath, secondPath, { format }) => {
-    const firstFile = fs.readFileSync(path.resolve(process.cwd(), firstPath));
-    const secondFile = fs.readFileSync(path.resolve(process.cwd(), secondPath));
-
-    const firstConfig = JSON.parse(firstFile.toString());
-    const secondConfig = JSON.parse(secondFile.toString());
-
-    const result = genDiff(firstConfig, secondConfig);
+    const result = genDiff(firstPath, secondPath);
 
     console.log(result);
   });
