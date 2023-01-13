@@ -1,0 +1,24 @@
+---
+
+plugins:
+  - import
+
+env:
+  node: true
+
+extends:
+  - 'airbnb-base'
+
+rules:
+  no-console: off
+  linebreak-style: 0
+  import/prefer-default-export: off
+  # import/extensions: off
+  comma-dangle: 2
+  import/extensions: # FIXME: remove when rule will be adjusted for new nodejs version
+    - error
+    - ignorePackages
+    - js: always
+
+parserOptions:
+  ecmaVersion: latest

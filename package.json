@@ -4,7 +4,7 @@
   "description": "Compares two configuration files and shows a difference.",
   "main": "gendiff.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx jest"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,14 @@
   },
   "type": "module",
   "bin": {
-    "gendiff": "gendiff.js"
+    "gendiff": "index.js"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.3.1",
+    "eslint": "^8.31.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "jest": "^29.3.1",
+    "jest-cli": "^29.3.1"
   }
 }

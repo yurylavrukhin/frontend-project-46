@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-import { program } from 'commander';
 import fs from 'fs';
 import path from 'path';
 
@@ -13,7 +11,9 @@ const genDiff = (firstPath, secondPath) => {
   const firstConfigKeys = Object.keys(firstConfig);
   const secondConfigKeys = Object.keys(secondConfig);
 
-  const uniqueKeys = [...new Set([...firstConfigKeys, ...secondConfigKeys].sort())];
+  const uniqueKeys = [
+    ...new Set([...firstConfigKeys, ...secondConfigKeys].sort()),
+  ];
 
   const diff = uniqueKeys.reduce((acc, key) => {
     const firstConfigValue = firstConfig[key];
@@ -24,12 +24,12 @@ const genDiff = (firstPath, secondPath) => {
         // untouched
         acc[`  ${key}`] = firstConfigValue;
         return acc;
-      } else {
-        // touched
-        acc[`- ${key}`] = firstConfigValue;
-        acc[`+ ${key}`] = secondConfigValue;
-        return acc;
       }
+
+      // touched
+      acc[`- ${key}`] = firstConfigValue;
+      acc[`+ ${key}`] = secondConfigValue;
+      return acc;
     }
 
     // deleted
@@ -43,6 +43,8 @@ const genDiff = (firstPath, secondPath) => {
       acc[`+ ${key}`] = secondConfigValue;
       return acc;
     }
+
+    return acc;
   }, {});
 
   const diffString = JSON.stringify(diff, null, 2);
@@ -51,19 +53,5 @@ const genDiff = (firstPath, secondPath) => {
 
   return unquotedDiffString;
 };
-
-program
-  .version('0.0.0')
-  .description(`Compares two configuration files and shows a difference.`)
-  .option('-f, --format <type>', 'output format')
-  .arguments('<filepath1> <filepath2>')
-  .helpOption('-h, --help', 'output usage information')
-  .action((firstPath, secondPath, { format }) => {
-    const result = genDiff(firstPath, secondPath);
-
-    console.log(result);
-  });
-
-program.parse(process.argv);
 
 export default genDiff;
