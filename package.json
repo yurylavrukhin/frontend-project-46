@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/yurylavrukhin/frontend-project-46#readme",
   "dependencies": {
-    "commander": "^9.4.1"
+    "commander": "^9.4.1",
+    "js-yaml": "^4.1.0"
   },
   "type": "module",
   "bin": {

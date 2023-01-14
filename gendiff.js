@@ -1,12 +1,19 @@
 import fs from 'fs';
 import path from 'path';
+import getParser from './parsers.js';
 
 const genDiff = (firstPath, secondPath) => {
   const firstFile = fs.readFileSync(path.resolve(process.cwd(), firstPath));
   const secondFile = fs.readFileSync(path.resolve(process.cwd(), secondPath));
 
-  const firstConfig = JSON.parse(firstFile.toString());
-  const secondConfig = JSON.parse(secondFile.toString());
+  const firstFileExt = path.extname(firstPath);
+  const secondFileExt = path.extname(secondPath);
+
+  const firstFileParser = getParser(firstFileExt);
+  const secondFileParser = getParser(secondFileExt);
+
+  const firstConfig = firstFileParser(firstFile.toString());
+  const secondConfig = secondFileParser(secondFile.toString());
 
   const firstConfigKeys = Object.keys(firstConfig);
   const secondConfigKeys = Object.keys(secondConfig);
