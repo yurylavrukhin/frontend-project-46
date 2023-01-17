@@ -5,7 +5,7 @@ const signIndent = (depth, spacesCount = 2) => '  '.repeat(spacesCount * depth).
 const SIGNS = {
   add: '+',
   substract: '-',
-  emptySpace: ' ',
+  empty: ' ',
 };
 
 const stringify = (value, treeDepth) => {
@@ -32,14 +32,14 @@ export default (innerTree) => {
           depth + 1,
         ).join('')}${indent(depth)}}\n`;
       case 'added':
-        return getValue(item.val, SIGNS.add);
+        return getValue(item.value, SIGNS.add);
       case 'deleted':
-        return getValue(item.val, SIGNS.substract);
+        return getValue(item.value, SIGNS.substract);
       case 'untouched':
-        return getValue(item.val, SIGNS.emptySpace);
+        return getValue(item.value, SIGNS.empty);
       case 'touched':
-        return `${getValue(item.val1, SIGNS.substract)}${getValue(
-          item.val2,
+        return `${getValue(item.value1, SIGNS.substract)}${getValue(
+          item.value2,
           SIGNS.add,
         )}`;
       default:

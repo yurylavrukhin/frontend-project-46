@@ -9,3 +9,6 @@
 
 #### Demo. Yaml File Comparison
 [![asciicast](https://asciinema.org/a/SCdzE7VFvSLLoFnGS09jXN1BY.svg)](https://asciinema.org/a/SCdzE7VFvSLLoFnGS09jXN1BY)
+
+#### Demo. Plain File Comparison
+[![asciicast](https://asciinema.org/a/TOSz6sUenkfOJxhsAQB8KYJbE.svg)](https://asciinema.org/a/TOSz6sUenkfOJxhsAQB8KYJbE)

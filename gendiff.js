@@ -2,9 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import getParser from './parsers.js';
 import getDiffTree from './getDiffTree.js';
-import formatter from './formatters/stylish.js';
+import formatter from './formatters/index.js';
 
-const genDiff = (firstPath, secondPath, options = { format: 'stylish' }) => {
+const genDiff = (firstPath, secondPath, { format = 'stylish' } = {}) => {
   const firstFile = fs.readFileSync(path.resolve(process.cwd(), firstPath));
   const secondFile = fs.readFileSync(path.resolve(process.cwd(), secondPath));
 
@@ -17,7 +17,7 @@ const genDiff = (firstPath, secondPath, options = { format: 'stylish' }) => {
   const firstConfig = firstFileParser(firstFile.toString());
   const secondConfig = secondFileParser(secondFile.toString());
 
-  return formatter(getDiffTree(firstConfig, secondConfig), options.format);
+  return formatter(getDiffTree(firstConfig, secondConfig), format);
 };
 
 export default genDiff;
