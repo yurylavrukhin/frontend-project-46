@@ -23,7 +23,7 @@ test('yaml. should handle: untouched, touched, deleted, added fields', () => {
   expect(actualOutput).toBe(expectedOutput);
 });
 
-test('mixed file extensions. should handle: untouched, touched, deleted, added fields', () => {
+test('stylish. should handle: untouched, touched, deleted, added fields', () => {
   const firstPath = getFixturePath('./file1.yml');
   const secondPath = getFixturePath('./file2.json');
 
@@ -42,6 +42,18 @@ test('plain. should handle: untouched, touched, deleted, added fields', () => {
   const expectedPath = getFixturePath('./expected-plain.txt');
 
   const actualOutput = genDiff(firstPath, secondPath, { format: 'plain' });
+  const expectedOutput = fs.readFileSync(expectedPath).toString().trim();
+
+  expect(actualOutput).toBe(expectedOutput);
+});
+
+test('json. should handle: untouched, touched, deleted, added fields', () => {
+  const firstPath = getFixturePath('./file1.yml');
+  const secondPath = getFixturePath('./file2.json');
+
+  const expectedPath = getFixturePath('./expected-json.txt');
+
+  const actualOutput = genDiff(firstPath, secondPath, { format: 'json' });
   const expectedOutput = fs.readFileSync(expectedPath).toString().trim();
 
   expect(actualOutput).toBe(expectedOutput);

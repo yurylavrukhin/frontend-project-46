@@ -4,5 +4,8 @@ lint:
 test:
 	npx jest
 
+test-watch:
+	npx jest --watch
+
 install-deps:
 	npm ci

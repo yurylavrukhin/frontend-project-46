@@ -13,19 +13,18 @@ const stringify = (value, treeDepth) => {
     return String(value);
   }
 
-  const arrayValue = Object.entries(value);
-  const lines = arrayValue.map(([key, val]) => `${indent(treeDepth + 1)}${key}: ${stringify(val, treeDepth + 1)}`);
+  const lines = Object.entries(value).map(
+    ([key, val]) => `${indent(treeDepth + 1)}${key}: ${stringify(val, treeDepth + 1)}`,
+  );
 
   return ['{', ...lines, `${indent(treeDepth)}}`].join('\n');
 };
 
 export default (innerTree) => {
   const iter = (tree, depth) => tree.map((item) => {
-    const typeDiff = item.type;
-
     const getValue = (value, sign) => `${signIndent(depth)}${sign} ${item.key}: ${stringify(value, depth)}\n`;
 
-    switch (typeDiff) {
+    switch (item.type) {
       case 'object':
         return `${indent(depth)}${item.key}: {\n${iter(
           item.children,
@@ -43,7 +42,7 @@ export default (innerTree) => {
           SIGNS.add,
         )}`;
       default:
-        return `Error: Unknown type: ${item.type}`;
+        throw new Error(`Unknown type: ${item.type}`);
     }
   });
 
