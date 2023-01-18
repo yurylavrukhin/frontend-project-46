@@ -41,7 +41,7 @@ test('plain. should handle: untouched, touched, deleted, added fields', () => {
 
   const expectedPath = getFixturePath('./expected-plain.txt');
 
-  const actualOutput = genDiff(firstPath, secondPath, { format: 'plain' });
+  const actualOutput = genDiff(firstPath, secondPath, 'plain');
   const expectedOutput = fs.readFileSync(expectedPath).toString().trim();
 
   expect(actualOutput).toBe(expectedOutput);
@@ -53,7 +53,7 @@ test('json. should handle: untouched, touched, deleted, added fields', () => {
 
   const expectedPath = getFixturePath('./expected-json.txt');
 
-  const actualOutput = genDiff(firstPath, secondPath, { format: 'json' });
+  const actualOutput = genDiff(firstPath, secondPath, 'json');
   const expectedOutput = fs.readFileSync(expectedPath).toString().trim();
 
   expect(actualOutput).toBe(expectedOutput);

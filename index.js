@@ -9,7 +9,7 @@ program
   .arguments('<filepath1> <filepath2>')
   .helpOption('-h, --help', 'output usage information')
   .action((firstPath, secondPath, format) => {
-    const result = genDiff(firstPath, secondPath, format);
+    const result = genDiff(firstPath, secondPath, format.format);
 
     console.log(result);
   });
