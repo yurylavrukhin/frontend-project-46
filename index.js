@@ -8,8 +8,8 @@ program
   .option('-f, --format <type>', 'output format')
   .arguments('<filepath1> <filepath2>')
   .helpOption('-h, --help', 'output usage information')
-  .action((firstPath, secondPath, format) => {
-    const result = genDiff(firstPath, secondPath, format.format);
+  .action((firstPath, secondPath, options) => {
+    const result = genDiff(firstPath, secondPath, options.format);
 
     console.log(result);
   });

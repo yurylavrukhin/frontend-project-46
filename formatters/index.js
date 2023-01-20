@@ -2,15 +2,21 @@ import stylish from './stylish.js';
 import plain from './plain.js';
 import json from './json.js';
 
+const FORMATTING_TYPES = {
+  stylish: 'stylish',
+  plain: 'plain',
+  json: 'json',
+};
+
 export default (data, format) => {
   switch (format) {
-    case 'stylish':
+    case FORMATTING_TYPES.stylish:
       return stylish(data);
-    case 'plain':
+    case FORMATTING_TYPES.plain:
       return plain(data);
-    case 'json':
+    case FORMATTING_TYPES.json:
       return json(data);
     default:
-      return `Error: Unknown type: ${format}`;
+      throw new Error(`Unknown formatting type: ${format}. Pick one of the available formatting types: ${Object.values(FORMATTING_TYPES).join(', ')}.`);
   }
 };

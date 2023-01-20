@@ -4,14 +4,16 @@ const stringify = (value) => {
   if (_.isObject(value)) {
     return '[complex value]';
   }
+
   if (typeof value === 'string') {
     return `'${value}'`;
   }
+
   return String(value);
 };
 
-export default (data) => {
-  const iter = (node, key = '') => {
+export default (tree) => {
+  const iter = (node, key) => {
     const result = node.flatMap((item) => {
       const newKeys = [...key, item.key];
 
@@ -24,18 +26,21 @@ export default (data) => {
           )}' was added with value: ${stringify(item.value)}`;
         case 'deleted':
           return `Property '${newKeys.join('.')}' was removed`;
-        case 'untouched':
-          return null;
         case 'touched':
           return `Property '${newKeys.join('.')}' was updated. From ${stringify(
             item.value1,
           )} to ${stringify(item.value2)}`;
+        case 'untouched':
+          return null;
         default:
-          return `Unknown type ${item.type}`;
+          throw new Error(
+            `Unknown tree type: ${item.type}, this seems to be an issue with the package, please submit an issue -> https://github.com/yurylavrukhin/frontend-project-46/issues.`,
+          );
       }
     });
 
     return result.filter((item) => item !== null).join('\n');
   };
-  return iter(data, []);
+
+  return iter(tree, []);
 };
