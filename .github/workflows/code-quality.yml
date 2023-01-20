@@ -9,8 +9,8 @@ jobs:
     # операционная система для работы воркфлоу
     runs-on: ubuntu-latest
     steps:
-        # Check-out repository under GitHub workspace
-        # https://github.com/actions/checkout
+      # Check-out repository under GitHub workspace
+      # https://github.com/actions/checkout
       - uses: actions/checkout@v3
         # Step's name
       - name: Use Node.js ${{ matrix.node-version }}
@@ -24,13 +24,13 @@ jobs:
       - run: make install-deps
       - run: make lint
       - run: make test
-      # - name: Test & publish code coverage
-      #   # Publish code coverage on Code Climate
-      #   # https://github.com/paambaati/codeclimate-action
-      #   uses: paambaati/codeclimate-action@v3.0.0
-      #   # Add Code Climate secret key
-      #   env:
-      #     CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-      #   with:
-      #     coverageCommand: make test-coverage
-      #     debug: true
+      - name: Test & publish code coverage
+        # Publish code coverage on Code Climate
+        # https://github.com/paambaati/codeclimate-action
+        uses: paambaati/codeclimate-action@v3.0.0
+        # Add Code Climate secret key
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+          coverageCommand: make test-coverage
+          debug: true
