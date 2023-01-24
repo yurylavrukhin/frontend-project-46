@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "version": "0.0.0",
   "description": "Compares two configuration files and shows a difference.",
-  "main": "gendiff.js",
+  "main": "index.js",
   "scripts": {
     "test": "npx jest"
   },
@@ -23,7 +23,7 @@
   },
   "type": "module",
   "bin": {
-    "gendiff": "index.js"
+    "gendiff": "bin/index.js"
   },
   "devDependencies": {
     "@jest/globals": "^29.3.1",

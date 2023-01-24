@@ -10,13 +10,13 @@ const getDiffTree = (object1, object2) => {
     const value2 = object2[key];
 
     if (_.isPlainObject(value1) && _.isPlainObject(value2)) {
-      return { key, type: 'object', children: getDiffTree(value1, value2) };
+      return { key, type: 'nested', children: getDiffTree(value1, value2) };
     }
 
     if (_.isEqual(value1, value2)) {
       return {
         key,
-        type: 'untouched',
+        type: 'unchanged',
         value: value1,
       };
     }
@@ -31,7 +31,7 @@ const getDiffTree = (object1, object2) => {
 
     return {
       key,
-      type: 'touched',
+      type: 'changed',
       value1,
       value2,
     };

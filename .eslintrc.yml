@@ -13,8 +13,8 @@ rules:
   no-console: off
   linebreak-style: 0
   import/prefer-default-export: off
-  # import/extensions: off
   comma-dangle: 2
+  no-underscore-dangle: off
   import/extensions: # FIXME: remove when rule will be adjusted for new nodejs version
     - error
     - ignorePackages

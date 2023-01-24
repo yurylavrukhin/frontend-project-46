@@ -18,7 +18,7 @@ export default (tree) => {
       const newKeys = [...key, item.key];
 
       switch (item.type) {
-        case 'object':
+        case 'nested':
           return iter(item.children, newKeys);
         case 'added':
           return `Property '${newKeys.join(
@@ -26,11 +26,11 @@ export default (tree) => {
           )}' was added with value: ${stringify(item.value)}`;
         case 'deleted':
           return `Property '${newKeys.join('.')}' was removed`;
-        case 'touched':
+        case 'changed':
           return `Property '${newKeys.join('.')}' was updated. From ${stringify(
             item.value1,
           )} to ${stringify(item.value2)}`;
-        case 'untouched':
+        case 'unchanged':
           return null;
         default:
           throw new Error(

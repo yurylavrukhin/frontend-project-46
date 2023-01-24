@@ -27,7 +27,7 @@ export default (tree) => {
     const getValue = (value, sign) => `${signIndent(depth)}${sign} ${item.key}: ${stringify(value, depth)}\n`;
 
     switch (item.type) {
-      case 'object':
+      case 'nested':
         return `${indent(depth)}${item.key}: {\n${iter(
           item.children,
           depth + 1,
@@ -36,12 +36,12 @@ export default (tree) => {
         return getValue(item.value, SIGNS.add);
       case 'deleted':
         return getValue(item.value, SIGNS.substract);
-      case 'touched':
+      case 'changed':
         return (
           getValue(item.value1, SIGNS.substract)
           + getValue(item.value2, SIGNS.add)
         );
-      case 'untouched':
+      case 'unchanged':
         return getValue(item.value, SIGNS.empty);
       default:
         throw new Error(
